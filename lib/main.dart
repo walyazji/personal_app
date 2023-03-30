@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import './widgets/new_transaction.dart';
 import './widgets/transaction_list.dart';
 import './widgets/chart.dart';
 import './models/transaction.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations(
+  //   [
+  //     DeviceOrientation.portraitUp,
+  //     DeviceOrientation.portraitDown,
+  //     // DeviceOrientation.landscapeRight,
+  //     // DeviceOrientation.landscapeLeft,
+  //   ],
+  // );
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -27,6 +39,11 @@ class MyApp extends StatelessWidget {
                     fontSize: 18,
                     color: Colors.purple),
                 button: TextStyle(color: Colors.white),
+                // bodyLarge: TextStyle(
+                //     fontFamily: 'OpenSans',
+                //     fontWeight: FontWeight.bold,
+                //     fontSize: 18,
+                //     color: Colors.grey),
               ),
           appBarTheme: AppBarTheme(
             toolbarTextStyle: ThemeData.light()
@@ -123,8 +140,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  bool showChart = false;
   @override
   Widget build(BuildContext context) {
+    final mq = MediaQuery.of(context);
+    final isLandscape = mq.orientation == Orientation.landscape;
+
     var appBar = AppBar(
       title: Text(
         'Personal Expenses',
@@ -137,6 +158,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ],
     );
+
+    var txListWidget = Container(
+      height:
+          (mq.size.height - appBar.preferredSize.height - mq.padding.top) * 0.7,
+      child: TransactionList(_userTransactions, _deleteTransaction),
+    );
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
@@ -144,20 +171,61 @@ class _MyHomePageState extends State<MyHomePage> {
           // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.3,
-              child: Chart(_recentTransactions),
-            ),
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.7,
-              child: TransactionList(_userTransactions, _deleteTransaction),
-            ),
+            if (!isLandscape)
+              Container(
+                height: (mq.size.height -
+                        appBar.preferredSize.height -
+                        mq.padding.top) *
+                    0.3,
+                child: Chart(_recentTransactions),
+              ),
+            if (!isLandscape) txListWidget,
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Show Chart',
+                    style: showChart == true
+                        ? Theme.of(context).textTheme.subtitle2
+                        : TextStyle(
+                            fontFamily: 'OpenSans',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.grey),
+                  ),
+                  Switch(
+                    activeColor: Colors.purple,
+                    value: showChart,
+                    onChanged: (value) {
+                      setState(() {
+                        showChart = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            // if (!isLandscape)
+            //   Container(
+            //     height: (mq.size.height -
+            //             appBar.preferredSize.height -
+            //             mq.padding.top) *
+            //         0.3,
+            //     child: Chart(_recentTransactions),
+            //   ),
+            // if (!isLandscape) txListWidget,
+            // if (isLandscape) txListWidget,
+            if (isLandscape)
+              showChart == true
+                  ? Container(
+                      height: (mq.size.height -
+                              appBar.preferredSize.height -
+                              mq.padding.top) *
+                          0.7,
+                      child: Chart(_recentTransactions),
+                    )
+                  : txListWidget,
+            if (isLandscape && showChart == true) txListWidget,
           ],
         ),
       ),

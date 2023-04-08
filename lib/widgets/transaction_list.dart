@@ -40,28 +40,43 @@ class TransactionList extends StatelessWidget {
                   horizontal: 5,
                 ),
                 child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 30,
-                    child: Padding(
-                      padding: EdgeInsets.all(6),
-                      child: FittedBox(
-                        child: Text('\$${transactions[index].amount}'),
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: EdgeInsets.all(6),
+                        child: FittedBox(
+                          child: Text('\$${transactions[index].amount}'),
+                        ),
                       ),
                     ),
-                  ),
-                  title: Text(
-                    transactions[index].title,
-                    style: Theme.of(context).textTheme.subtitle2,
-                  ),
-                  subtitle: Text(
-                    DateFormat.yMMMd().format(transactions[index].date),
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    color: Theme.of(context).errorColor,
-                    onPressed: () => deleteTx(transactions[index].id),
-                  ),
-                ),
+                    title: Text(
+                      transactions[index].title,
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                    subtitle: Text(
+                      DateFormat.yMMMd().format(transactions[index].date),
+                    ),
+                    trailing: MediaQuery.of(context).size.width > 360
+                        ? TextButton.icon(
+                            icon: Icon(Icons.delete),
+                            style: ButtonStyle(
+                              textStyle: MaterialStateProperty.all(
+                                  TextStyle(color: Colors.red)),
+                              // textStyle: MaterialStateTextStyle.resolveWith(
+                              //   (states) => TextStyle(
+                              //     // color: Theme.of(context).errorColor,
+                              //     color: Colors.red,
+                              //   ),
+                            ),
+                            onPressed: () => deleteTx(transactions[index].id),
+                            label: Text('Delete'),
+                          )
+                        : IconButton(
+                            icon: Icon(Icons.delete),
+                            color: Colors.red,
+                            // color: Theme.of(context).errorColor,
+                            onPressed: () => deleteTx(transactions[index].id),
+                          )),
               );
             },
             itemCount: transactions.length,

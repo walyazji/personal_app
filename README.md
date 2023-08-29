@@ -1,16 +1,11 @@
-# personal_app
+# project title
+Personal App
 
-A new Flutter project.
+# project preview
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+![1-1](https://github.com/walyazji/personal_app/assets/80062908/613b5bd9-6ed7-434e-a077-1a985a285acb)
+![2-2](https://github.com/walyazji/personal_app/assets/80062908/9a0225ea-22fc-4449-9822-456b96691aeb)
+![3-3](https://github.com/walyazji/personal_app/assets/80062908/24aaf64e-4c18-4688-af44-cb397c7e9f20)
+![4-4](https://github.com/walyazji/personal_app/assets/80062908/c4de76c0-e366-4779-91c0-d575638f96f8)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
